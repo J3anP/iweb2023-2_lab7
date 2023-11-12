@@ -49,7 +49,7 @@ public class DepartmentServlet extends HttpServlet {
                     try {
                         departmentId = Integer.parseInt(departmentIdString);
                     } catch (NumberFormatException ex) {
-                        resp.sendRedirect("EmployeeServlet");
+                        resp.sendRedirect("DepartmentServlet");
 
                     }
 
@@ -111,16 +111,15 @@ public class DepartmentServlet extends HttpServlet {
         switch (action){
             case "guardar":
                 departmentDao.guardarDepartamento(department);
-                resp.sendRedirect("EmployeeServlet");
+                resp.sendRedirect("DepartmentServlet");
                 break;
             case "actualizar":
                 department.setDepartmentId(Integer.parseInt(req.getParameter("department_id")));
 
                 departmentDao.actualizarDepartamento(department);
 
-                resp.sendRedirect("EmployeeServlet");
+                resp.sendRedirect("DepartmentServlet");
                 break;
-
         }
     }
 }

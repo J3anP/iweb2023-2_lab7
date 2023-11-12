@@ -1,6 +1,6 @@
 package com.example.webapphr1_2023.Beans;
 
-public class Department {
+public class Department{
 
     private int departmentId;
     private String departmentName;

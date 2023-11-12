@@ -134,7 +134,7 @@ public class DepartmentDao extends DaoBase {
         location.setLocationId(rs.getInt("location_id"));
         location.setStreetAddress(rs.getString("street_address"));
         location.setCity(rs.getString("city"));
-        location.setStateProvince("state_province");
+        location.setStateProvince(rs.getString("state_province"));
         department.setLocation(location);
 
         return department;

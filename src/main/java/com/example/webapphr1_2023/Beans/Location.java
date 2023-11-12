@@ -7,9 +7,9 @@ public class Location {
     private String city;
     private String stateProvince;
     private Country country;
-    private String countryId;
+
     public String getFullAddress(){
-        return streetAddress + "-" + city+"-"+stateProvince;
+        return streetAddress + "-" + city + "-" + stateProvince;
     }
 
     public int getLocationId() {
@@ -60,12 +60,5 @@ public class Location {
         this.country = country;
     }
 
-    public String getCountryId() {
-        return countryId;
-    }
-
-    public void setCountryId(String countryId) {
-        this.countryId = countryId;
-    }
 
 }
