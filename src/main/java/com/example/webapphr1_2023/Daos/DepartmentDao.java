@@ -14,7 +14,7 @@ public class DepartmentDao extends DaoBase {
     public ArrayList<Department> lista() {
 
         ArrayList<Department> list = new ArrayList<>();
-        String sql = " ";
+        String sql = "select * from departments";
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {

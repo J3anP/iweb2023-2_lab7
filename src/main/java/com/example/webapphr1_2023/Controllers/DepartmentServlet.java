@@ -6,6 +6,7 @@ import com.example.webapphr1_2023.Beans.Department;
 import com.example.webapphr1_2023.Daos.DepartmentDao;
 import com.example.webapphr1_2023.Daos.EmployeeDao;
 import com.example.webapphr1_2023.Daos.JobDao;
+import com.example.webapphr1_2023.Daos.LocationDao;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,6 +25,7 @@ public class DepartmentServlet extends HttpServlet {
         EmployeeDao employeeDao = new EmployeeDao();
         JobDao jobDao = new JobDao();
         DepartmentDao departmentDao = new DepartmentDao();
+        LocationDao locationDao = new LocationDao();
 
         switch (action){
             case "lista":
@@ -52,8 +54,8 @@ public class DepartmentServlet extends HttpServlet {
                     if (dep != null) {
                         req.setAttribute("department", dep);
                         req.setAttribute("listaJefes",employeeDao.listarEmpleados());
-                        req.setAttribute("listaLocations",departmentDao.lista());
-                        view = req.getRequestDispatcher("employees/formularioEditar.jsp");
+                        req.setAttribute("listaLocations",locationDao.lista());
+                        view = req.getRequestDispatcher("department/editDepartment.jsp");
                         view.forward(req, resp);
                     } else {
                         resp.sendRedirect("DepartmentServlet");
