@@ -31,7 +31,7 @@ public class LocationServlet extends HttpServlet {
         switch (action){
 
             case "listar":
-                ArrayList<Location> locationList = locationDao.lista();
+                ArrayList<Location> locationList = locationDao.listaFull();
                 req.setAttribute("locationList", locationList);
                 view = req.getRequestDispatcher("location/list.jsp");
                 view.forward(req, resp);
