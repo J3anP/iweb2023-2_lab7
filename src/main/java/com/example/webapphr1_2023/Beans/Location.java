@@ -6,6 +6,7 @@ public class Location {
     private String postalCode;
     private String city;
     private String stateProvince;
+    private Country country;
     private String countryId;
     public String getFullAddress(){
         return streetAddress + "-" + city+"-"+stateProvince;
@@ -51,6 +52,14 @@ public class Location {
         this.stateProvince = stateProvince;
     }
 
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
     public String getCountryId() {
         return countryId;
     }
@@ -58,4 +67,5 @@ public class Location {
     public void setCountryId(String countryId) {
         this.countryId = countryId;
     }
+
 }

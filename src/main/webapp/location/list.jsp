@@ -19,7 +19,7 @@
             <li class="breadcrumb-item active">Locations</li>
         </ol>
     </nav>
-    <a class="btn btn-primary mb-3" href="<%=request.getContextPath()%>/LocationServlet?action=formCrear">Crear
+    <a class="btn btn-primary mb-3" href="<%=request.getContextPath()%>/LocationServlet?action=crear">Crear
         Location</a>
     <table class="table">
         <tr>
@@ -38,25 +38,25 @@
         <tr>
             <td><%=loc.getLocationId()%>
             </td>
-            <td><%=loc.getLocationId()%>
+            <td><%=loc.getStreetAddress() == null? "---":loc.getStreetAddress()%>
             </td>
-            <td><%=loc.getLocationId()%>
+            <td><%=loc.getPostalCode() == null? "---":loc.getPostalCode()%>
             </td>
-            <td><%=loc.getLocationId()%>
+            <td><%=loc.getCity()%>
             </td>
-            <td><%=loc.getLocationId()%>
+            <td><%=loc.getStateProvince() == null? "---":loc.getStateProvince()%>
             </td>
-            <td><%=loc.getLocationId()%>
+            <td><%=loc.getCountry().getCountryId() == null? "---":loc.getCountry().getCountryName()%>
             </td>
             <td>
                 <a class="btn btn-primary"
-                   href="<%=request.getContextPath()%>/DepartmentServlet?action=editar&id=<%=loc.getLocationId()%>">
+                   href="<%=request.getContextPath()%>/LocationServlet?action=editar&id=<%=loc.getLocationId()%>">
                     <i class="bi bi-pencil-square"></i>
                 </a>
             </td>
             <td>
                 <a class="btn btn-danger"
-                   href="<%=request.getContextPath()%>/DepartmentServlet?action=borrar&id=<%=loc.getLocationId()%>">
+                   href="<%=request.getContextPath()%>/LocationServlet?action=borrar&id=<%=loc.getLocationId()%>">
                     <i class="bi bi-trash3"></i>
                 </a>
             </td>
