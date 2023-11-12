@@ -99,10 +99,10 @@ public class DepartmentServlet extends HttpServlet {
                     departmentDao.crearDepartamento(department);
                     resp.sendRedirect("/DepartmentServlet");
                 }else{
-                    req.setAttribute("managerList",employeeDao.listarEmpleados());
-                    req.setAttribute("locationList",locationDao.lista());
-                    req.setAttribute("ultimoDepartment",departmentDao.lista().get(departmentDao.lista().size()-1));
-                    req.getRequestDispatcher("department/crearDepartment.jsp").forward(req,resp);
+                    req.setAttribute("listaJefes",employeeDao.listarEmpleados());
+                    req.setAttribute("listaLocations",locationDao.lista());
+                    req.setAttribute("lastD",departmentDao.lista().get(departmentDao.lista().size()-1));
+                    req.getRequestDispatcher("department/formularioEditar.jsp").forward(req,resp);
                 }
                 break;
             case "editar":
@@ -110,14 +110,15 @@ public class DepartmentServlet extends HttpServlet {
                     departmentDao.editarDepartamento(department);
                     resp.sendRedirect("/DepartmentServlet");
                 }else{
-                    req.setAttribute("managerList",employeeDao.listarEmpleados());
-                    req.setAttribute("locationList",locationDao.lista());
-                    req.setAttribute("department",departmentDao.obtenerDepartment(Integer.parseInt(req.getParameter("department_id"))));
-                    req.getRequestDispatcher("department/editarDepartment.jsp").forward(req,resp);
+                    req.setAttribute("listaJefes",employeeDao.listarEmpleados());
+                    req.setAttribute("listaLocations",locationDao.lista());
+                    req.setAttribute("lastD",departmentDao.obtenerDepartment(Integer.parseInt(req.getParameter("department_id"))));
+                    req.getRequestDispatcher("department/formularioNuevo.jsp").forward(req,resp);
                 }
                 break;
         }
 
 
     }
+
 }
