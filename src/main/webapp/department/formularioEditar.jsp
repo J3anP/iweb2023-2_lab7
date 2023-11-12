@@ -20,9 +20,8 @@
         <h1 class='mb-3'>Editar departamento</h1>
         <hr>
         <form method="POST" action="DepartmentServlet?action=editar" class="col-md-6 col-lg-6">
-            <div class = "mb-3">
-                <input type="hidden" name="department_id" value="<%= department.getDepartmentId()%>"/>
-            </div>
+            <input type="hidden" name="department_id" value="<%= department.getDepartmentId()%>"/>
+
 
             <div class="mb-3">
                 <label for="department_name">Department Name</label>

@@ -74,17 +74,32 @@ public class DepartmentDao extends DaoBase {
 
     public void crearDepartamento(Department department) {
 
-        String sql = "insert into departments (department_name,manager_id,location_id) values (?,?,?) ";
+        String sql = "insert into departments (department_id,department_name,manager_id,location_id) values (?,?,?,?) ";
 
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            setDepartmentData(department, pstmt);
+            pstmt.setInt(1,department.getDepartmentId());
+
+            pstmt.setString(2,department.getDepartmentName());
+
+            if (department.getManager().getEmployeeId() == 0) {
+                pstmt.setNull(3, Types.INTEGER);
+            } else {
+                pstmt.setInt(3, department.getManager().getEmployeeId());
+            }
+
+            if (department.getLocation().getLocationId() == 0) {
+                pstmt.setNull(4, Types.INTEGER);
+            } else {
+                pstmt.setInt(4, department.getLocation().getLocationId());
+            }
 
             pstmt.executeUpdate();
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
     }
     public void editarDepartamento(Department department) {
@@ -101,11 +116,28 @@ public class DepartmentDao extends DaoBase {
             pstmt.executeUpdate();
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
     }
     public void borrarDepartamento(int departmentId) {
 
+        try(Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("update employees set department_id = null where department_id=?")){
+            pstmt.setInt(1,departmentId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        try(Connection conn = getConnection();
+            PreparedStatement pstmt = conn.prepareStatement("update job_history set department_id = null where department_id=?")){
+            pstmt.setInt(1,departmentId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        //Los pasos anteriores son para poder borrar departments, porque depende de foreign keys
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement("delete from departments where department_id = ?")) {
 
@@ -119,8 +151,8 @@ public class DepartmentDao extends DaoBase {
 
     private Department fetchDepartmentData(ResultSet rs) throws SQLException {
         Department department = new Department();
-        department.setDepartmentId(rs.getInt(1));
-        department.setDepartmentName(rs.getString(2));
+        department.setDepartmentId(rs.getInt("d.department_id"));
+        department.setDepartmentName(rs.getString("d.department_name"));
 
         Employee manager = null;
         if(rs.getInt("m.employee_id") != 0){
