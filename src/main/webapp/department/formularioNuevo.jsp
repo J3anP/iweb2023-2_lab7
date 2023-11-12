@@ -17,7 +17,7 @@
 <body>
 <div class='container'>
     <div class="row justify-content-center">
-        <form method="POST" action="DepartmentServlet?action=guardar" class="col-md-6 col-lg-6">
+        <form method="POST" action="DepartmentServlet?action=crear" class="col-md-6 col-lg-6">
             <h1 class='mb-3'>Nuevo Departamento</h1>
             <hr>
             <div class="mb-3">
@@ -52,3 +52,4 @@
 <jsp:include page="../includes/bootstrap_footer.jsp"/>
 </body>
 </html>
+

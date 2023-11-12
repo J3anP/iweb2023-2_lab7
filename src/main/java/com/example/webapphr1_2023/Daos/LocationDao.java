@@ -12,7 +12,7 @@ public class LocationDao extends DaoBase{
     public ArrayList<Location> lista() {
 
         ArrayList<Location> list = new ArrayList<>();
-        String sql = " select * from locations";
+        String sql = "select * from locations";
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -25,7 +25,7 @@ public class LocationDao extends DaoBase{
                 location.setPostalCode(rs.getString(3));
                 location.setCity(rs.getString(4));
                 location.setStateProvince(rs.getString(5));
-                location.setCountryId(rs.getString(6));
+                //location.setCountryId(rs.getString(6));
 
                 list.add(location);
             }

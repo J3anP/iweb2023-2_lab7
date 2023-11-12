@@ -72,7 +72,7 @@ public class DepartmentDao extends DaoBase {
         return department;
     }
 
-    public void guardarDepartamento(Department department) {
+    public void crearDepartamento(Department department) {
 
         String sql = "insert into departments (department_name,manager_id,location_id) values (?,?,?) ";
 
@@ -87,12 +87,13 @@ public class DepartmentDao extends DaoBase {
             ex.printStackTrace();
         }
     }
-    public void actualizarDepartamento(Department department) {
+    public void editarDepartamento(Department department) {
 
         String sql = "update departments set department_name = ?, manager_id = ?, location_id = ? where department_id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
 
             setDepartmentData(department, pstmt);
             pstmt.setInt(4, department.getDepartmentId());
@@ -106,7 +107,7 @@ public class DepartmentDao extends DaoBase {
     public void borrarDepartamento(int departmentId) {
 
         try (Connection conn = getConnection();
-             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM departments WHERE department_id = ?")) {
+             PreparedStatement pstmt = conn.prepareStatement("delete from departments where department_id = ?")) {
 
             pstmt.setInt(1, departmentId);
             pstmt.executeUpdate();
@@ -140,6 +141,7 @@ public class DepartmentDao extends DaoBase {
         return department;
     }
     private void setDepartmentData(Department department, PreparedStatement pstmt) throws SQLException {
+
         pstmt.setString(1,department.getDepartmentName());
 
         if (department.getManager().getEmployeeId() == 0) {
