@@ -97,23 +97,23 @@ public class DepartmentServlet extends HttpServlet {
             case "crear":
                 if(valido){
                     departmentDao.crearDepartamento(department);
-                    resp.sendRedirect("/DepartmentServlet");
+                    resp.sendRedirect(req.getContextPath()+"/DepartmentServlet");
                 }else{
                     req.setAttribute("listaJefes",employeeDao.listarEmpleados());
                     req.setAttribute("listaLocations",locationDao.lista());
                     req.setAttribute("lastD",departmentDao.lista().get(departmentDao.lista().size()-1));
-                    req.getRequestDispatcher("department/formularioEditar.jsp").forward(req,resp);
+                    req.getRequestDispatcher("department/formularioNuevo.jsp").forward(req,resp);
                 }
                 break;
             case "editar":
                 if(valido){
                     departmentDao.editarDepartamento(department);
-                    resp.sendRedirect("/DepartmentServlet");
+                    resp.sendRedirect(req.getContextPath()+"/DepartmentServlet");
                 }else{
                     req.setAttribute("listaJefes",employeeDao.listarEmpleados());
                     req.setAttribute("listaLocations",locationDao.lista());
-                    req.setAttribute("lastD",departmentDao.obtenerDepartment(Integer.parseInt(req.getParameter("department_id"))));
-                    req.getRequestDispatcher("department/formularioNuevo.jsp").forward(req,resp);
+                    req.setAttribute("department",departmentDao.obtenerDepartment(Integer.parseInt(req.getParameter("department_id"))));
+                    req.getRequestDispatcher("department/formularioEditar.jsp").forward(req,resp);
                 }
                 break;
         }
