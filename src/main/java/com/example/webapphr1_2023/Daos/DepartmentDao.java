@@ -32,6 +32,26 @@ public class DepartmentDao extends DaoBase {
         }
         return list;
     }
+    public ArrayList<Department> listarDepartments() {
+
+        ArrayList<Department> listaDepartamentos = new ArrayList<>();
+
+        String sql = "select * from departments  d inner join employees m on d.manager_id = m.employee_id left join locations l on d.location_id = l.location_id order by d.department_id";
+
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Department department = fetchDepartmentData(rs);
+                listaDepartamentos.add(department);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return listaDepartamentos;
+    }
     public Department obtenerDepartment(int departmentId){
         Department department = new Department();
 
@@ -50,6 +70,50 @@ public class DepartmentDao extends DaoBase {
             ex.printStackTrace();
         }
         return department;
+    }
+
+    public void guardarDepartamento(Department department) {
+
+        String sql = "insert into departments (department_name,manager_id,location_id) values (?,?,?) ";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            setDepartmentData(department, pstmt);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public void actualizarDepartamento(Department department) {
+
+        String sql = "update departments set department_name = ?, manager_id = ?, location_id = ? where department_id = ?";
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            setDepartmentData(department, pstmt);
+            pstmt.setInt(4, department.getDepartmentId());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+    public void borrarDepartamento(int departmentId) {
+
+        try (Connection conn = getConnection();
+             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM departments WHERE department_id = ?")) {
+
+            pstmt.setInt(1, departmentId);
+            pstmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     private Department fetchDepartmentData(ResultSet rs) throws SQLException {
@@ -74,5 +138,20 @@ public class DepartmentDao extends DaoBase {
         department.setLocation(location);
 
         return department;
+    }
+    private void setDepartmentData(Department department, PreparedStatement pstmt) throws SQLException {
+        pstmt.setString(1,department.getDepartmentName());
+
+        if (department.getManager().getEmployeeId() == 0) {
+            pstmt.setNull(2, Types.INTEGER);
+        } else {
+            pstmt.setInt(2, department.getManager().getEmployeeId());
+        }
+
+        if (department.getLocation().getLocationId() == 0) {
+            pstmt.setNull(3, Types.INTEGER);
+        } else {
+            pstmt.setInt(3, department.getLocation().getLocationId());
+        }
     }
 }

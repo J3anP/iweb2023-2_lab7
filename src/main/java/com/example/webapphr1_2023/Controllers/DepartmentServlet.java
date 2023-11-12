@@ -3,6 +3,7 @@ package com.example.webapphr1_2023.Controllers;
 import com.example.webapphr1_2023.Beans.Employee;
 import com.example.webapphr1_2023.Beans.Job;
 import com.example.webapphr1_2023.Beans.Department;
+import com.example.webapphr1_2023.Beans.Location;
 import com.example.webapphr1_2023.Daos.DepartmentDao;
 import com.example.webapphr1_2023.Daos.EmployeeDao;
 import com.example.webapphr1_2023.Daos.JobDao;
@@ -29,12 +30,15 @@ public class DepartmentServlet extends HttpServlet {
 
         switch (action){
             case "lista":
-                req.setAttribute("departmentList", departmentDao.lista());
+                req.setAttribute("departmentList", departmentDao.listarDepartments());
                 view = req.getRequestDispatcher("department/list.jsp");
                 view.forward(req, resp);
                 break;
             case "crear":
-                view = req.getRequestDispatcher("jobs/newDepartment.jsp");
+
+                req.setAttribute("listaJefes",employeeDao.listarEmpleados());
+                req.setAttribute("listaLocations",locationDao.lista());
+                view = req.getRequestDispatcher("department/newDepartment.jsp");
                 view.forward(req, resp);
                 break;
             case "editar":
@@ -66,6 +70,23 @@ public class DepartmentServlet extends HttpServlet {
                 }
                 break;
             case "borrar":
+                if (req.getParameter("id") != null) {
+                    String departmentIdString = req.getParameter("id");
+                    int departmentId = 0;
+                    try {
+                        departmentId = Integer.parseInt(departmentIdString);
+                    } catch (NumberFormatException ex) {
+                        resp.sendRedirect("DepartmentServlet");
+                    }
+
+                    Department dep = departmentDao.obtenerDepartment(departmentId);
+
+                    if (dep != null) {
+                        departmentDao.borrarDepartamento(departmentId);
+                    }
+                }
+
+                resp.sendRedirect("DepartmentServlet");
                 break;
         }
 
@@ -76,5 +97,30 @@ public class DepartmentServlet extends HttpServlet {
         super.doPost(req, resp);
         String action = req.getParameter("action") == null ? "lista" : req.getParameter("action");
         DepartmentDao departmentDao = new DepartmentDao();
+        Department department = new Department();
+        department.setDepartmentName(req.getParameter("department_name"));
+
+        Employee manager = new Employee();
+        manager.setEmployeeId(Integer.parseInt(req.getParameter("manager_id")));
+        department.setManager(manager);
+
+        Location location = new Location();
+        location.setLocationId(Integer.parseInt(req.getParameter("location_id")));
+        department.setLocation(location);
+
+        switch (action){
+            case "guardar":
+                departmentDao.guardarDepartamento(department);
+                resp.sendRedirect("EmployeeServlet");
+                break;
+            case "actualizar":
+                department.setDepartmentId(Integer.parseInt(req.getParameter("department_id")));
+
+                departmentDao.actualizarDepartamento(department);
+
+                resp.sendRedirect("EmployeeServlet");
+                break;
+
+        }
     }
 }
