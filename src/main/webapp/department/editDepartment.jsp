@@ -20,10 +20,10 @@
         <h1 class='mb-3'>Editar departamento</h1>
         <hr>
         <form method="POST" action="DepartmentServlet?action=actualizar" class="col-md-6 col-lg-6">
-            <input type="hidden" name="employee_id" value="<%= department.getDepartmentId()%>"/>
+            <input type="hidden" name="department_id" value="<%= department.getDepartmentId()%>"/>
             <div class="mb-3">
-                <label for="first_name">Department Name</label>
-                <input type="text" class="form-control form-control-sm" name="first_name" id="first_name"
+                <label for="department_name">Department Name</label>
+                <input type="text" class="form-control form-control-sm" name="department_name" id="department_name"
                        value="<%= department.getDepartmentName() == null ? "" : department.getDepartmentName()%>">
             </div>
 
