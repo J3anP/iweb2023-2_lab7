@@ -48,7 +48,7 @@ public class DepartmentServlet extends HttpServlet {
 
                 break;
             case "editar":
-                Department dep = departmentDao.obtenerDepartment(departmentId);
+                Department dep = departmentDao.obtenerDepartment(Integer.parseInt(req.getParameter("id")));
                 req.setAttribute("listaJefes",employeeDao.listarEmpleados());
                 req.setAttribute("listaLocations",locationDao.lista());
                 req.setAttribute("department", dep);
