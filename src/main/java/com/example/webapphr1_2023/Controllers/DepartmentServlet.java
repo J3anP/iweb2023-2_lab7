@@ -49,9 +49,9 @@ public class DepartmentServlet extends HttpServlet {
                 break;
             case "editar":
                 Department dep = departmentDao.obtenerDepartment(departmentId);
-                req.setAttribute("department", dep);
                 req.setAttribute("listaJefes",employeeDao.listarEmpleados());
                 req.setAttribute("listaLocations",locationDao.lista());
+                req.setAttribute("department", dep);
                 view = req.getRequestDispatcher("department/formularioEditar.jsp");
                 view.forward(req, resp);
                 break;
