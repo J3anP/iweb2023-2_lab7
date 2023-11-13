@@ -104,11 +104,10 @@ public class DepartmentDao extends DaoBase {
     }
     public void editarDepartamento(Department department) {
 
-        String sql = "update departments set department_name = ?, manager_id = ?, location_id = ? where department_id = ?";
+        String sql = "update departments set department_name = ? , manager_id = ? , location_id =  ? where department_id = ?";
 
         try (Connection conn = getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
 
             setDepartmentData(department, pstmt);
             pstmt.setInt(4, department.getDepartmentId());
